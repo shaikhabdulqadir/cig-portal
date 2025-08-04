@@ -5,3 +5,12 @@
 [x-cloak] {
     display: none;
 }
+
+.text-primary {
+    color: #008ef6;
+}
+
+.border-primary {
+    border: 1px solid;
+    border-color: #008ef6;
+}
