@@ -1,16 +1,39 @@
 @tailwind base;
-@tailwind components;
+/* @tailwind components; */
 @tailwind utilities;
+
+:root {
+    --v-theme-primary: #008ef6;
+    --v-border-color: #008ef6;
+    --v-border-opacity: 1;
+}
 
 [x-cloak] {
     display: none;
 }
 
+.bg-primary {
+    background-color: #008ef6;
+}
+
+.btn-primary:hover {
+    color: white !important;
+    background-color: #008ef6;
+}
+
 .text-primary {
-    color: #008ef6;
+    color: #008ef6 !important;
 }
 
 .border-primary {
-    border: 1px solid;
     border-color: #008ef6;
+}
+
+.v-field__field {
+    background-color: white;
+    border-bottom: 1px solid;
+}
+
+.text-color1 {
+    color: #2c313e;
 }
