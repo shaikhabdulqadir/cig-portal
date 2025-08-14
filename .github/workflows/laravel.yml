@@ -20,14 +20,14 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/u482721622/domains/portal.cig.chat/public_html/cig-portal
-            sudo git checkout .
-            sudo git pull
+            git checkout .
+            git pull
             php artisan migrate --force
             php artisan tenants:migrate --force
             php artisan config:clear
             php artisan view:clear
             # php artisan db:seed
-            # sudo npm update
-            # sudo npm run build
-            # sudo composer update
-            sudo service supervisor restart
+            # npm update
+            # npm run build
+            # composer update
+            # service supervisor restart
