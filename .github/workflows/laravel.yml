@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /var/www/AZlytics
+            cd /home/u482721622/domains/portal.cig.chat/public_html/cig-portal
             sudo git checkout .
             sudo git pull
             php artisan migrate --force
