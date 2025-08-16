@@ -30,13 +30,13 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Log in" />
+    <Head title="Plans" />
 
     <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
         </template>
-        <div class="w-full flex justify-center">
+        <div class="w-full flex justify-center pb-16">
             <div class="w-full max-w-6xl mt-6">
                 <div class="grid grid-cols-4 gap-4">
                     <div class="border-2 border-primary"></div>
@@ -55,7 +55,7 @@ const submit = () => {
                     class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6"
                 >
                     <div
-                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between"
+                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl"
                     >
                         <div>
                             <div class="mb-4">
@@ -91,7 +91,7 @@ const submit = () => {
                     </div>
 
                     <div
-                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between"
+                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl"
                     >
                         <div>
                             <div class="mb-4">
@@ -165,7 +165,7 @@ const submit = () => {
                     </div>
 
                     <div
-                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between"
+                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl"
                     >
                         <div>
                             <div class="mb-4">

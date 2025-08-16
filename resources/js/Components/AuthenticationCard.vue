@@ -6,7 +6,7 @@
             <slot name="logo" />
         </div>
 
-        <div>
+        <div class="min-h-screen">
             <slot />
         </div>
 

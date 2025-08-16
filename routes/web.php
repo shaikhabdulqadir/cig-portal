@@ -3,6 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\UserController;
+use Laravel\Jetstream\Http\Controllers\Inertia\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +27,13 @@ Route::get('/', function () {
     ]);
 });
 
+Route::redirect('/', '/login');
 
 Route::get('/signup', function () {
     return inertia('Signup');
 });
+
+Route::post('/signup', [UserController::class,'signup'])->name('signup');
 
 Route::get('/plans', function () {
     return inertia('Plans');
@@ -41,4 +47,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    // Admin routes for plan management
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('plans', PlanController::class);
+    });
 });

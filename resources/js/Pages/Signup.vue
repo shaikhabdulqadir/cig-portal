@@ -7,7 +7,9 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { ref } from "vue";
 
+const showPassword = ref(false);
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -16,21 +18,24 @@ defineProps({
 const form = useForm({
     email: "",
     password: "",
-    remember: false,
+    company_name: "",
+    name: "",
+    phone: "",
+    license: "",
 });
 
 const submit = () => {
     form.transform((data) => ({
         ...data,
         remember: form.remember ? "on" : "",
-    })).post(route("login"), {
+    })).post(route("signup"), {
         onFinish: () => form.reset("password"),
     });
 };
 </script>
 
 <template>
-    <Head title="Log in" />
+    <Head title="Signup" />
 
     <AuthenticationCard>
         <template #logo>
@@ -69,7 +74,6 @@ const submit = () => {
                                             :label="__('Full Name')"
                                         ></v-text-field>
                                         <InputError
-                                            class="mt-2"
                                             :message="form.errors.name"
                                         />
                                     </div>
@@ -79,7 +83,6 @@ const submit = () => {
                                             :label="__('Phone')"
                                         ></v-text-field>
                                         <InputError
-                                            class="mt-2"
                                             :message="form.errors.phone"
                                         />
                                     </div>
@@ -91,7 +94,6 @@ const submit = () => {
                                             :label="__('Company Name')"
                                         ></v-text-field>
                                         <InputError
-                                            class="mt-2"
                                             :message="form.errors.name"
                                         />
                                     </div>
@@ -103,8 +105,7 @@ const submit = () => {
                                             "
                                         ></v-text-field>
                                         <InputError
-                                            class="mt-2"
-                                            :message="form.errors.phone"
+                                            :message="form.errors.license"
                                         />
                                     </div>
                                 </div>
@@ -115,10 +116,21 @@ const submit = () => {
                                     v-model="form.email"
                                     :label="__('Email')"
                                 ></v-text-field>
-                                <InputError
-                                    class="mt-2"
-                                    :message="form.errors.email"
-                                />
+                                <InputError :message="form.errors.email" />
+                            </div>
+
+                            <div class="px-4">
+                                <v-text-field
+                                    v-model="form.password"
+                                    :label="__('Password')"
+                                    :append-icon="
+                                        showPassword ? 'mdi-eye' : 'mdi-eye-off'
+                                    "
+                                    :type="showPassword ? 'text' : 'password'"
+                                    label="Normal with hint text"
+                                    @click:append="showPassword = !showPassword"
+                                ></v-text-field>
+                                <InputError :message="form.errors.password" />
                             </div>
 
                             <div class="flex items-center justify-end mt-4">
@@ -127,6 +139,7 @@ const submit = () => {
                 </Link> -->
 
                                 <v-btn
+                                    type="submit"
                                     variant="outlined"
                                     color="primary"
                                     :class="{ 'opacity-25': form.processing }"
