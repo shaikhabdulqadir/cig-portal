@@ -50,7 +50,7 @@ const submit = () => {
                     <div class="border-2 border-[#666D80]"></div>
                 </div>
                 <div
-                    class="bg-white shadow-lg overflow-hidden m-auto rounded-lg mt-8 p-16"
+                    class="bg-white shadow-lg overflow-hidden m-auto rounded-lg mt-8 p-4 sm:p-16"
                 >
                     <div>
                         <h1 class="text-5xl font-bold text-center">
@@ -67,8 +67,8 @@ const submit = () => {
 
                         <form @submit.prevent="submit">
                             <div class="grid grid-cols-2">
-                                <div class="px-4">
-                                    <div>
+                                <div class="px-4 col-span-2 sm:col-span-1">
+                                    <div class="w-full">
                                         <v-text-field
                                             v-model="form.name"
                                             :label="__('Full Name')"
@@ -87,7 +87,7 @@ const submit = () => {
                                         />
                                     </div>
                                 </div>
-                                <div class="px-4">
+                                <div class="px-4 col-span-2 sm:col-span-1">
                                     <div>
                                         <v-text-field
                                             v-model="form.company_name"
@@ -111,7 +111,7 @@ const submit = () => {
                                 </div>
                             </div>
 
-                            <div class="px-4">
+                                <div class="px-4 col-span-2 sm:col-span-1">
                                 <v-text-field
                                     v-model="form.email"
                                     :label="__('Email')"
@@ -119,7 +119,7 @@ const submit = () => {
                                 <InputError :message="form.errors.email" />
                             </div>
 
-                            <div class="px-4">
+                                <div class="px-4 col-span-2 sm:col-span-1">
                                 <v-text-field
                                     v-model="form.password"
                                     :label="__('Password')"

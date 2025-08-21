@@ -38,7 +38,7 @@ const submit = () => {
         </template>
         <div class="w-full flex justify-center pb-16">
             <div class="w-full max-w-6xl mt-6">
-                <div class="grid grid-cols-4 gap-4">
+                <div class="grid grid-cols-4 gap-4 p-6 sm:p-0">
                     <div class="border-2 border-primary"></div>
                     <div class="border-2 border-[#666D80]"></div>
                     <div class="border-2 border-[#666D80]"></div>
@@ -52,7 +52,7 @@ const submit = () => {
                     {{ __("Which program is suitable for you?") }}
                 </div>
                 <div
-                    class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6"
+                    class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 p-6 sm:p-0"
                 >
                     <div
                         class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl"

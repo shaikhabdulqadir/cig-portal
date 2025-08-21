@@ -37,7 +37,7 @@ Route::post('/signup', [UserController::class,'signup'])->name('signup');
 
 Route::get('/plans', function () {
     return inertia('Plans');
-});
+})->name('plans');
 
 Route::middleware([
     'auth:sanctum',
@@ -45,6 +45,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
+        return redirect()->route('plans');
         return Inertia::render('Dashboard');
     })->name('dashboard');
 

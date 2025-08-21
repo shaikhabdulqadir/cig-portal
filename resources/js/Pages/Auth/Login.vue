@@ -52,7 +52,7 @@ const show1 = ref(false);
                 </div>
             </div>
             <div class="grid grid-cols-5 m-8">
-                <div class="col-span-2">
+                <div class="col-span-5 sm:col-span-2">
                     <div
                         v-if="status"
                         class="mb-4 font-medium text-sm text-green-600"
@@ -116,7 +116,7 @@ const show1 = ref(false);
                         </div>
                     </form>
                 </div>
-                <div class="flex justify-center">
+                <div class="hidden sm:flex justify-center">
                     <svg
                         width="15"
                         height="284"
@@ -144,9 +144,8 @@ const show1 = ref(false);
                         />
                     </svg>
                 </div>
-
                 <div
-                    class="flex flex-col items-center justify-center col-span-2"
+                    class="col-span-5 sm:col-span-2 flex flex-col items-center justify-center mt-8 sm:mt-0"
                 >
                     <button
                         class="flex justify-center h-10 w-full justify-center text-white rounded-md border border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
