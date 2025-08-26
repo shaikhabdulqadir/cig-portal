@@ -34,6 +34,7 @@ Route::get('/signup', function () {
 });
 
 Route::post('/signup', [UserController::class,'signup'])->name('signup');
+Route::get('/subscribe', [UserController::class,'subscribe'])->name('subscribe');
 
 Route::get('/plans', function () {
     return inertia('Plans');
