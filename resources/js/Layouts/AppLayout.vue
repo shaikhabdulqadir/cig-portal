@@ -54,6 +54,9 @@ const logout = () => {
                                 <NavLink :href="route('admin.plans.index')" :active="route().current('admin.plans.*')">
                                     Plans
                                 </NavLink>
+                                <NavLink :href="route('admin.addons.index')" :active="route().current('admin.addons.*')">
+                                    Addons
+                                </NavLink>
                             </div>
                         </div>
 
@@ -199,6 +202,9 @@ const logout = () => {
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('admin.plans.index')" :active="route().current('admin.plans.*')">
                             Plans
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('admin.addons.index')" :active="route().current('admin.addons.*')">
+                            Addons
                         </ResponsiveNavLink>
                     </div>
 

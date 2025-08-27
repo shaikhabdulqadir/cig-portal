@@ -4,11 +4,22 @@ import { ref } from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import TextInput from "@/Components/TextInput.vue";
 
+const props = defineProps({
+    plan: Object,
+});
+
 const form = useForm({
-    name: "",
-    price: "",
-    is_active: true,
-    features: [{ feature_name: "", description: "" }],
+    id: props.plan?.id ?? null,
+    name: props.plan?.name ?? "",
+    price: props.plan?.price ?? "",
+    is_active: props.plan?.is_active ?? false,
+    features:
+        props.plan?.features.length > 0
+            ? props.plan.features.map((f) => ({
+                  feature_name: f.feature_name,
+                  description: f.description || "",
+              }))
+            : [{ feature_name: "", description: "" }],
 });
 
 const addFeature = () => {
@@ -58,28 +69,10 @@ const submit = () => {
                         <form @submit.prevent="submit" class="space-y-6">
                             <!-- Plan Name -->
                             <div>
-                                <label
-                                    for="name"
-                                    class="block text-sm font-medium text-gray-700"
-                                >
-                                    Plan Name
-                                </label>
-                                <input
-                                    id="name"
+                                <v-text-field
+                                    :label="__('Plan Name')"
                                     v-model="form.name"
-                                    type="text"
-                                    required
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    :class="{
-                                        'border-red-500': form.errors.name,
-                                    }"
-                                />
-                                <TextInput
-                                    id="name"
-                                    v-model="form.name"
-                                    type="text"
-                                    required
-                                />
+                                ></v-text-field>
                                 <div
                                     v-if="form.errors.name"
                                     class="mt-1 text-sm text-red-600"
@@ -90,33 +83,11 @@ const submit = () => {
 
                             <!-- Price -->
                             <div>
-                                <label
-                                    for="price"
-                                    class="block text-sm font-medium text-gray-700"
-                                >
-                                    Price
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                    <div
-                                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                                    >
-                                        <span class="text-gray-500 sm:text-sm"
-                                            >$</span
-                                        >
-                                    </div>
-                                    <input
-                                        id="price"
-                                        v-model="form.price"
-                                        type="number"
-                                        step="0.01"
-                                        min="0"
-                                        required
-                                        class="pl-7 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        :class="{
-                                            'border-red-500': form.errors.price,
-                                        }"
-                                    />
-                                </div>
+                                <v-text-field
+                                    :label="__('Price')"
+                                    v-model="form.price"
+                                ></v-text-field>
+
                                 <div
                                     v-if="form.errors.price"
                                     class="mt-1 text-sm text-red-600"
@@ -182,37 +153,20 @@ const submit = () => {
                                     </div>
 
                                     <div
-                                        class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                                        class="grid grid-cols-1 md:grid-cols-1 gap-4"
                                     >
                                         <div>
-                                            <label
-                                                :for="`feature_name_${index}`"
-                                                class="block text-sm font-medium text-gray-700"
-                                            >
-                                                Feature Name
-                                            </label>
-                                            <input
-                                                :id="`feature_name_${index}`"
+                                            <v-text-field
+                                                :label="__('Feature Name')"
                                                 v-model="feature.feature_name"
-                                                type="text"
-                                                required
-                                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
+                                            ></v-text-field>
                                         </div>
-                                        <div>
-                                            <label
-                                                :for="`feature_description_${index}`"
-                                                class="block text-sm font-medium text-gray-700"
-                                            >
-                                                Description
-                                            </label>
-                                            <input
-                                                :id="`feature_description_${index}`"
+                                        <!-- <div>
+                                            <v-textarea
+                                                label="Description"
                                                 v-model="feature.description"
-                                                type="text"
-                                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
-                                        </div>
+                                            ></v-textarea>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>

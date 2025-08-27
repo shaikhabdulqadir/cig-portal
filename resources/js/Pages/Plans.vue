@@ -11,6 +11,7 @@ import TextInput from "@/Components/TextInput.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
+    plans: Array,
 });
 
 const form = useForm({
@@ -56,147 +57,36 @@ const submit = () => {
                 >
                     <div
                         class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                        v-for="plan in plans"
                     >
                         <div>
                             <div class="mb-4">
                                 <h3
                                     class="text-2xl font-extrabold text-gray-900 text-center uppercase"
                                 >
-                                    BASIC + PLUS
+                                    {{ plan.name }}
                                 </h3>
                             </div>
                             <p
                                 class="text-2xl font-semibold text-gray-900 mb-4 pb-2 text-center planAmount"
                             >
-                                {{ __("price_start") }}
-                            </p>
-                            <ul class="space-y-3 mb-6 text-gray-600">
-                                <li class="flex items-center justify-center">
-                                    <span>50GB Cloud Space</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Team Collaboration</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Project Management</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Instant Chat</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <v-btn color="primary" variant="outlined">
-                            {{ __("Choose Plan") }}
-                        </v-btn>
-                    </div>
-
-                    <div
-                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl"
-                    >
-                        <div>
-                            <div class="mb-4">
-                                <h3
-                                    class="text-2xl font-extrabold text-gray-900 text-center uppercase"
-                                >
-                                    {{ __("Start+ Plus") }}
-                                </h3>
-                            </div>
-                            <p
-                                class="text-2xl font-semibold text-gray-900 mb-4 pb-2 text-center planAmount"
-                            >
-                                {{ __("price_start_plus") }}
-                            </p>
-                            <ul class="space-y-3 mb-6 text-gray-600">
-                                <li class="flex items-center justify-center">
-                                    <span>100GB Cloud Space</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Team Collaboration</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Project Management</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Instant Chat</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <v-btn color="primary" variant="outlined">
-                            {{ __("Choose Plan") }}
-                        </v-btn>
-                    </div>
-
-                    <div
-                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl relative z-10"
-                    >
-                        <div>
-                            <div class="mb-4">
-                                <h3
-                                    class="text-2xl font-extrabold text-gray-900 text-center uppercase"
-                                >
-                                    {{ __("Business") }}
-                                </h3>
-                            </div>
-                            <p
-                                class="text-2xl font-semibold text-gray-900 mb-4 pb-2 text-center planAmount"
-                            >
-                                {{ __("price_business") }}
-                            </p>
-                            <ul class="space-y-3 mb-6 text-gray-600">
-                                <li class="flex items-center justify-center">
-                                    <span>200GB Cloud Space</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Team Collaboration</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Project Management</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Instant Chat</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <button
-                            class="w-full text-white bg-indigo-600 font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200"
-                        >
-                            Choose Plan
-                        </button>
-                    </div>
-
-                    <div
-                        class="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl"
-                    >
-                        <div>
-                            <div class="mb-4">
-                                <h3
-                                    class="text-2xl font-extrabold text-gray-900 text-center uppercase"
-                                >
-                                    {{ __("Business +Plus") }}
-                                </h3>
-                            </div>
-                            <p
-                                class="text-2xl font-semibold text-gray-900 mb-4 pb-2 text-center planAmount"
-                            >
-                                {{ __("price_business_plus") }}
+                                {{ plan.price }}
                             </p>
                             <ul class="space-y-3 mb-6 text-gray-600 list-none">
-                                <li class="flex items-center justify-center">
-                                    <span>500GB Cloud Space</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Team Collaboration</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Project Management</span>
-                                </li>
-                                <li class="flex items-center justify-center">
-                                    <span>Instant Chat</span>
+                                <li
+                                    class="flex items-center justify-center"
+                                    v-for="feature in plan.features"
+                                >
+                                    <span>
+                                        {{ feature.feature_name }}
+                                    </span>
                                 </li>
                             </ul>
                         </div>
                         <v-btn color="primary" variant="outlined">
-                            {{ __("Choose Plan") }}
+                            <Link :href="'/select-plan/' + plan.id">
+                                {{ __("Choose Plan") }}
+                            </Link>
                         </v-btn>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\AddonController;
 use App\Http\Controllers\UserController;
 use Laravel\Jetstream\Http\Controllers\Inertia\UserProfileController;
 
@@ -35,23 +36,30 @@ Route::get('/signup', function () {
 
 Route::post('/signup', [UserController::class,'signup'])->name('signup');
 Route::get('/subscribe', [UserController::class,'subscribe'])->name('subscribe');
+Route::get('/select-plan/{plan_id}', [UserController::class,'selectPlan'])->name('select_plan');
+Route::get('/addons', [UserController::class,'addons'])->name('addons');
 
-Route::get('/plans', function () {
-    return inertia('Plans');
-})->name('plans');
+Route::get('/plans', [UserController::class,'plans'])->name('plans');
+Route::post('/payment/{plan_id}', [UserController::class,'payment'])->name('payment');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/dashboard', function () {
-        return redirect()->route('plans');
-        return Inertia::render('Dashboard');
+
+        $user = auth()->user();
+        if(!$user->is_admin){
+            return redirect()->route('plans');
+        }
+    return Inertia::render('Dashboard');
     })->name('dashboard');
 
     // Admin routes for plan management
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('plans', PlanController::class);
+        Route::resource('addons', AddonController::class);
     });
 });

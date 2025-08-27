@@ -5,23 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Plan extends Model
+class Addon extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
+        'description',
         'price',
-        'is_active'
     ];
 
-    protected $casts = [
+    protected $cast = [
         'price' => 'float',
-        'is_active' => 'boolean'
     ];
-
-    public function features()
-    {
-        return $this->hasMany(PlanFeature::class);
-    }
 }
+
+

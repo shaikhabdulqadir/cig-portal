@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Addon;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Services\IcountService;
@@ -44,6 +46,10 @@ class UserController extends Controller
     {
         $icountService = new IcountService;
 
+        $card_number = 5123450000000008;
+        $cc_cvv = 100;
+        $cc_validity = "01/39";
+        
         $data = [
             "sid" => "string",
             "cid" => "string",
@@ -62,10 +68,10 @@ class UserController extends Controller
             "bank_account" => 0,
             "deposit_to_bank" => 0,
             "cc_token_id" => 0,
-            "cc_number" => 5123450000000008,
-            "cc_cvv" => 100,
+            "cc_number" => $card_number,
+            "cc_cvv" => $cc_cvv,
+            "cc_validity" => $cc_validity,
             "cc_type" => "string",
-            "cc_validity" => "01/39",
             "cc_holder_id" => 0,
             "cc_holder_name" => "string",
             "start_date" => "2019-08-24",
@@ -81,15 +87,15 @@ class UserController extends Controller
                     "sku" => "string",
                     "description" => "string",
                     "long_description" => "string",
-                    "currency_id" => 0,
-                    "currency_rate" => -3.402823669209385e+38,
+                    // "currency_id" => 0,
+                    // "currency_rate" => -3.402823669209385e+38,
                     "unitprice" => -3.402823669209385e+38,
-                    "unitprice_incvat" => -3.402823669209385e+38,
-                    "unitprice_exempt" => -3.402823669209385e+38,
+                    // "unitprice_incvat" => -3.402823669209385e+38,
+                    // "unitprice_exempt" => -3.402823669209385e+38,
                     "tax_exempt" => true,
-                    "quantity" => -3.402823669209385e+38,
-                    "serial" => "string",
-                    "taxes" => (object)[],
+                    "quantity" => 1,
+                    // "serial" => "string",
+                    // "taxes" => (object)[],
                 ]
             ],
             "price_indexing" => [
@@ -113,4 +119,36 @@ class UserController extends Controller
 
         return back();
     }
+
+    public function plans()
+    {
+        $plans = Plan::with('features')->get();
+
+        return inertia('Plans',[
+            'plans' => $plans
+        ]);
+    }
+
+    public function addons()
+    {
+        $addons = Addon::get();
+
+        if(session('plan') == null){
+            return redirect('/plans');
+        }
+
+        $plan = Plan::with('features')->find(session('plan'));
+
+        return inertia('Addons',[
+            'addons' => $addons,
+            'plan' => $plan
+        ]);
+    }
+
+    public function selectPlan($plan_id)
+    {
+        session(['plan' => $plan_id]);
+        return redirect()->route('addons');
+    }
+
 }

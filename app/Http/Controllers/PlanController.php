@@ -44,7 +44,9 @@ class PlanController extends Controller
             'features.*.description' => 'nullable|string'
         ]);
 
-        $plan = Plan::create([
+        $plan = Plan::updateOrCreate([
+            'id' => $request->id
+        ],[
             'name' => $validated['name'],
             'price' => $validated['price'],
             'is_active' => $validated['is_active'] ?? true,
@@ -82,7 +84,7 @@ class PlanController extends Controller
     {
         $plan = Plan::with('features')->findOrFail($id);
 
-        return Inertia::render('Admin/Plans/Edit', [
+        return Inertia::render('Admin/Plans/Create',[
             'plan' => $plan
         ]);
     }

@@ -92,7 +92,7 @@ class IcountService
         $json = $response->json();
 
         if($json['status'] == false){
-            throw new Exception($json['error_description']."\n".$json['error_details'][0]);
+            throw new Exception($json['error_description']."\n".($json['error_details'][0]??''));
         }
 
         return $json;
