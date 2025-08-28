@@ -35,11 +35,7 @@ Route::get('/signup', function () {
 });
 
 Route::post('/signup', [UserController::class,'signup'])->name('signup');
-Route::get('/subscribe', [UserController::class,'subscribe'])->name('subscribe');
-Route::get('/select-plan/{plan_id}', [UserController::class,'selectPlan'])->name('select_plan');
-Route::get('/addons', [UserController::class,'addons'])->name('addons');
 
-Route::get('/plans', [UserController::class,'plans'])->name('plans');
 Route::post('/payment/{plan_id}', [UserController::class,'payment'])->name('payment');
 
 Route::middleware([
@@ -47,6 +43,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
+Route::get('/plans', [UserController::class,'plans'])->name('plans');
+Route::post('/subscribe', [UserController::class,'subscribe'])->name('subscribe');
+Route::get('/select-plan/{plan_id}', [UserController::class,'selectPlan'])->name('select_plan');
+Route::post('/select-addons', [UserController::class,'selectAddons'])->name('select_addons');
+Route::get('/addons', [UserController::class,'addons'])->name('addons');
+Route::get('/payment', [UserController::class,'payment'])->name('payment');
+
 
     Route::get('/dashboard', function () {
 

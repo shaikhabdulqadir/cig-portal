@@ -7,6 +7,7 @@ use App\Models\Plan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Services\IcountService;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
@@ -42,89 +43,103 @@ class UserController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function subscribe()
+    public function subscribe(Request $request)
     {
-        $icountService = new IcountService;
-
-        $card_number = 5123450000000008;
-        $cc_cvv = 100;
-        $cc_validity = "01/39";
-        
-        $data = [
-            "sid" => "string",
-            "cid" => "string",
-            "user" => "string",
-            "pass" => "string",
-            "client_id" => 0,
-            "custom_client_id" => "string",
-            "vat_id" => 0,
-            "email" => "string",
-            "client_name" => "string",
-            "doctype" => "string",
-            "tax_exempt" => true,
-            "incvat" => true,
-            "bank_number" => 0,
-            "bank_branch" => 0,
-            "bank_account" => 0,
-            "deposit_to_bank" => 0,
-            "cc_token_id" => 0,
-            "cc_number" => $card_number,
-            "cc_cvv" => $cc_cvv,
-            "cc_validity" => $cc_validity,
-            "cc_type" => "string",
-            "cc_holder_id" => 0,
-            "cc_holder_name" => "string",
-            "start_date" => "2019-08-24",
-            "num_of_payments" => 0,
-            "issue_every" => 0,
-            "currency" => "ILS",
-            "income_type_id" => 0,
-            "employee_assigned" => 0,
-            "items" => [
-                [
-                    "item_id" => 0,
-                    "inventory_item_id" => "string",
-                    "sku" => "string",
-                    "description" => "string",
-                    "long_description" => "string",
-                    // "currency_id" => 0,
-                    // "currency_rate" => -3.402823669209385e+38,
-                    "unitprice" => -3.402823669209385e+38,
-                    // "unitprice_incvat" => -3.402823669209385e+38,
-                    // "unitprice_exempt" => -3.402823669209385e+38,
-                    "tax_exempt" => true,
-                    "quantity" => 1,
-                    // "serial" => "string",
-                    // "taxes" => (object)[],
-                ]
+        $request->validate([
+            'cardholder_name' => 'required|string|max:255',
+            'card_number'     => 'required|digits_between:13,19', // usually 13-19 digits
+            'exp'             => [
+                'required',
+                'regex:/^(0[1-9]|1[0-2])\/([0-9]{2}|[0-9]{4})$/'
             ],
-            "price_indexing" => [
-                "type" => "string",
-                "adjustment" => "string",
-                "price_index" => 0,
-                "price_index_base" => 0,
-                "price_index_value" => -3.402823669209385e+38,
-                "currency_code" => "string",
-                "currency_rate" => -3.402823669209385e+38,
-            ],
-            "email_to_client" => true,
-            "email_cc" => "string",
-            "email_client_on_issue" => true,
-            "lang" => "string",
-            "hk_cc_auto_retry" => true,
-        ];
+            'cvc'             => 'required|digits_between:3,4',
+        ]);
+
+        try {
+            $icountService = new IcountService();
+
+            $card_number = $request->card_number;
+            $cc_cvv = $request->cvv;
+            $cc_validity = $request->exp;
+
+            $data = [
+                "sid" => "string",
+                "cid" => "string",
+                "user" => "string",
+                "pass" => "string",
+                "client_id" => 0,
+                "custom_client_id" => "string",
+                "vat_id" => 0,
+                "email" => "string",
+                "client_name" => "string",
+                "doctype" => "string",
+                "tax_exempt" => true,
+                "incvat" => true,
+                "bank_number" => 0,
+                "bank_branch" => 0,
+                "bank_account" => 0,
+                "deposit_to_bank" => 0,
+                "cc_token_id" => 0,
+                "cc_number" => $card_number,
+                "cc_cvv" => $cc_cvv,
+                "cc_validity" => $cc_validity,
+                "cc_type" => "string",
+                "cc_holder_id" => 0,
+                "cc_holder_name" => "string",
+                "start_date" => "2019-08-24",
+                "num_of_payments" => 0,
+                "issue_every" => 0,
+                "currency" => "ILS",
+                "income_type_id" => 0,
+                "employee_assigned" => 0,
+                "items" => [
+                    [
+                        "item_id" => 0,
+                        "inventory_item_id" => "string",
+                        "sku" => "string",
+                        "description" => "string",
+                        "long_description" => "string",
+                        // "currency_id" => 0,
+                        // "currency_rate" => -3.402823669209385e+38,
+                        "unitprice" => -3.402823669209385e+38,
+                        // "unitprice_incvat" => -3.402823669209385e+38,
+                        // "unitprice_exempt" => -3.402823669209385e+38,
+                        "tax_exempt" => true,
+                        "quantity" => 1,
+                        // "serial" => "string",
+                        // "taxes" => (object)[],
+                    ]
+                ],
+                "price_indexing" => [
+                    "type" => "string",
+                    "adjustment" => "string",
+                    "price_index" => 0,
+                    "price_index_base" => 0,
+                    "price_index_value" => -3.402823669209385e+38,
+                    "currency_code" => "string",
+                    "currency_rate" => -3.402823669209385e+38,
+                ],
+                "email_to_client" => true,
+                "email_cc" => "string",
+                "email_client_on_issue" => true,
+                "lang" => "string",
+                "hk_cc_auto_retry" => true,
+            ];
 
 
-        $response = $icountService->createRecurringProfile($data);
+            $response = $icountService->createRecurringProfile($data);
 
-        return back();
+            return back();
+        } catch (Exception $ex) {
+            return back()->with(['error' => $ex->getMessage()]);
+        }
     }
 
     public function plans()
     {
         $plans = Plan::with('features')->get();
 
-        return inertia('Plans',[
+        return inertia('Plans', [
             'plans' => $plans
         ]);
     }
@@ -133,13 +148,13 @@ class UserController extends Controller
     {
         $addons = Addon::get();
 
-        if(session('plan') == null){
+        if (session('plan') == null) {
             return redirect('/plans');
         }
 
         $plan = Plan::with('features')->find(session('plan'));
 
-        return inertia('Addons',[
+        return inertia('Addons', [
             'addons' => $addons,
             'plan' => $plan
         ]);
@@ -149,6 +164,34 @@ class UserController extends Controller
     {
         session(['plan' => $plan_id]);
         return redirect()->route('addons');
+    }
+
+    public function payment()
+    {
+        $addons = Addon::get();
+
+        if (session('plan') == null) {
+            return redirect('/plans');
+        }
+
+        $plan = Plan::with('features')->find(session('plan'));
+
+        $addons = session('selectedAddons') ?? [];
+
+        $addonsSum = collect($addons)->sum('price');
+        $totalAmount = $plan->price + $addonsSum;
+
+        return inertia('Payment', [
+            'addons' => $addons,
+            'plan' => $plan,
+            'totalAmount' => $totalAmount,
+        ]);
+    }
+
+    public function selectAddons(Request $request)
+    {
+        session(['selectedAddons' => $request->selectedAddons]);
+        return redirect('/payment');
     }
 
 }

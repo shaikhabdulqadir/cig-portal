@@ -25,9 +25,9 @@ class IcountService
                 // "pass"=> "Au2025!!"
 
                 // Production
-                "cid"=> "cig",
-                "user"=> "eyal",
-                "pass"=> "V011r37!!"
+                "cid" => "cig",
+                "user" => "eyal",
+                "pass" => "V011r37!!"
         ]);
 
         $this->sid = $response['sid'];
@@ -88,11 +88,11 @@ class IcountService
     {
         $response = Http::acceptJson()
             ->post($this->baseUrl . $endpoint, $data);
-            
+
         $json = $response->json();
 
-        if($json['status'] == false){
-            throw new Exception($json['error_description']."\n".($json['error_details'][0]??''));
+        if ($json['status'] == false) {
+            throw new Exception($json['error_description']."\n".($json['error_details'][0] ?? ''));
         }
 
         return $json;

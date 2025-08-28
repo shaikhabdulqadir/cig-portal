@@ -101,5 +101,3 @@ class AddonController extends Controller
             ->with('success', 'Addon deleted successfully.');
     }
 }
-
-

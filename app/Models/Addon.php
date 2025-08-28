@@ -19,5 +19,3 @@ class Addon extends Model
         'price' => 'float',
     ];
 }
-
-

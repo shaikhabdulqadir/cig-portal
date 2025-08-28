@@ -34,6 +34,10 @@ const totalAmount = computed(() => {
             .reduce((acc, val) => acc + val, 0)
     );
 });
+
+function submit(){
+    form.post(route('select_addons'))
+}
 </script>
 
 <template>
@@ -54,7 +58,7 @@ const totalAmount = computed(() => {
 
                 <div class="max-w-7xl mx-auto mt-6 p-6 sm:p-0">
                     <div
-                        class="bg-white rounded-lg shadow-lg py-8 px-28 flex flex-col justify-between transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                        class="bg-white rounded-lg shadow-lg py-8 px-28 flex flex-col justify-between transform transition duration-300"
                     >
                         <h1 class="text-5xl font-bold text-center mt-4">
                             {{ __("Hey") }}, {{ $page.props.auth.user.name }}
@@ -152,7 +156,7 @@ const totalAmount = computed(() => {
                             </div>
                             <div class="flex justify-end mt-8">
                                 <v-btn
-                                    type="submit"
+                                    @click="submit()"
                                     variant="outlined"
                                     color="primary"
                                     :class="{ 'opacity-25': form.processing }"
