@@ -35,8 +35,8 @@ const totalAmount = computed(() => {
     );
 });
 
-function submit(){
-    form.post(route('select_addons'))
+function submit() {
+    form.post(route("select_addons"));
 }
 </script>
 
@@ -101,12 +101,24 @@ function submit(){
                                     {{ __("Optional upgrades") }}
                                 </div>
                                 <div v-for="addon in addons">
-                                    <div class="flex justify-between">
+                                    <div
+                                        class="flex justify-between border-t-2 my-8"
+                                    >
                                         <div>
                                             <div class="text-xl text-gray-900">
+                                                <span
+                                                    class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300"
+                                                    v-if="addon.is_recurring"
+                                                    >Recurring</span
+                                                >
+                                                <span
+                                                    v-else
+                                                    class="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300"
+                                                    >One time</span
+                                                >
                                                 {{ addon.name }}
                                             </div>
-                                            <div class="flex items-center">
+                                            <div class="flex items-center mt-4">
                                                 <div class="text-gray-600">
                                                     {{ addon.description }}
                                                 </div>

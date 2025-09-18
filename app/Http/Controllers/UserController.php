@@ -62,6 +62,51 @@ class UserController extends Controller
             $cc_cvv = $request->cvv;
             $cc_validity = $request->exp;
 
+            $plan = Plan::with('features')->find(session('plan'));
+
+            $addons = session('selectedAddons') ?? [];
+
+            $addonsSum = collect($addons)->sum('price');
+            $totalAmount = $plan->price + $addonsSum;
+
+            $items = [];
+
+            $items[] = [
+                "item_id" => 0,
+                    "inventory_item_id" => "string",
+                    "sku" => "string",
+                    "description" => "string",
+                    "long_description" => "string",
+                    // "currency_id" => 0,
+                    // "currency_rate" => -3.402823669209385e+38,
+                    "unitprice" => $plan->price,
+                    // "unitprice_incvat" => -3.402823669209385e+38,
+                    // "unitprice_exempt" => -3.402823669209385e+38,
+                    "tax_exempt" => true,
+                    "quantity" => 1,
+                    // "serial" => "string",
+                    // "taxes" => (object)[],
+                ];
+
+            foreach ($addons as $addon) {
+                $items[] = [
+                    "item_id" => 0,
+                        "inventory_item_id" => "string",
+                        "sku" => "string",
+                        "description" => "string",
+                        "long_description" => "string",
+                        // "currency_id" => 0,
+                        // "currency_rate" => -3.402823669209385e+38,
+                        "unitprice" => $addon['price'],
+                        // "unitprice_incvat" => -3.402823669209385e+38,
+                        // "unitprice_exempt" => -3.402823669209385e+38,
+                        "tax_exempt" => true,
+                        "quantity" => 1,
+                        // "serial" => "string",
+                        // "taxes" => (object)[],
+                    ];
+            }
+
             $data = [
                 "sid" => "string",
                 "cid" => "string",
@@ -92,24 +137,7 @@ class UserController extends Controller
                 "currency" => "ILS",
                 "income_type_id" => 0,
                 "employee_assigned" => 0,
-                "items" => [
-                    [
-                        "item_id" => 0,
-                        "inventory_item_id" => "string",
-                        "sku" => "string",
-                        "description" => "string",
-                        "long_description" => "string",
-                        // "currency_id" => 0,
-                        // "currency_rate" => -3.402823669209385e+38,
-                        "unitprice" => -3.402823669209385e+38,
-                        // "unitprice_incvat" => -3.402823669209385e+38,
-                        // "unitprice_exempt" => -3.402823669209385e+38,
-                        "tax_exempt" => true,
-                        "quantity" => 1,
-                        // "serial" => "string",
-                        // "taxes" => (object)[],
-                    ]
-                ],
+                "items" => $items,
                 "price_indexing" => [
                     "type" => "string",
                     "adjustment" => "string",

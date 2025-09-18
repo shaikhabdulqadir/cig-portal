@@ -32,9 +32,9 @@ const destroy = (id) => {
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                        <th class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                        <th class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                                         <th class="px-6 py-3"></th>
                                     </tr>
                                 </thead>
@@ -43,7 +43,9 @@ const destroy = (id) => {
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ addon.name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ addon.description }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ addon.price }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2
+                                             rtl:space-x-reverse
+                                        ">
                                             <Link :href="route('admin.addons.edit', addon.id)" class="text-indigo-600 hover:text-indigo-900">Edit</Link>
                                             <button @click="destroy(addon.id)" class="text-red-600 hover:text-red-900">Delete</button>
                                         </td>

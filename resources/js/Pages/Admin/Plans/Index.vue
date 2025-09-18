@@ -43,27 +43,27 @@ const deletePlan = (planId) => {
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
                                             Name
                                         </th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
                                             Price
                                         </th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
                                             Features
                                         </th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
                                             Status
                                         </th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
                                             Actions
                                         </th>
@@ -120,7 +120,7 @@ const deletePlan = (planId) => {
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium"
                                         >
-                                            <div class="flex space-x-2">
+                                            <div class="flex space-x-2 rtl:space-x-reverse">
                                                 <Link
                                                     :href="
                                                         route(
