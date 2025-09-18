@@ -38,6 +38,8 @@ class AddonController extends Controller
             'name' => 'required|string|max:255|unique:addons',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'max_quantity' => 'nullable|integer|min:1',
+            'is_recurring' => 'required|boolean',
         ]);
 
         Addon::create($validated);
@@ -81,6 +83,8 @@ class AddonController extends Controller
             'name' => ['required', 'string', 'max:255', Rule::unique('addons')->ignore($addon->id)],
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'max_quantity' => 'nullable|integer|min:1',
+            'is_recurring' => 'required|boolean',
         ]);
 
         $addon->update($validated);

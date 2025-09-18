@@ -13,9 +13,13 @@ class Addon extends Model
         'name',
         'description',
         'price',
+        'max_quantity',
+        'is_recurring',
     ];
 
-    protected $cast = [
+    protected $casts = [
         'price' => 'float',
+        'max_quantity' => 'integer',
+        'is_recurring' => 'boolean',
     ];
 }

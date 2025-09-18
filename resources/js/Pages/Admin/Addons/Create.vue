@@ -13,6 +13,8 @@ const form = useForm({
     name: props.addon?.name ?? "",
     description: props.addon?.description ?? "",
     price: props.addon?.price ?? "",
+    max_quantity: props.addon?.max_quantity ?? null,
+    is_recurring: props.addon?.is_recurring ?? false,
 });
 
 const submit = () => {
@@ -78,6 +80,28 @@ const submit = () => {
                                 ></v-text-field>
                                 <div v-if="form.errors.price" class="mt-1 text-sm text-red-600">
                                     {{ form.errors.price }}
+                                </div>
+                            </div>
+
+                            <div>
+                                <v-text-field
+                                    :label="__('Max Quantity (optional)')"
+                                    type="number"
+                                    min="1"
+                                    v-model="form.max_quantity"
+                                ></v-text-field>
+                                <div v-if="form.errors.max_quantity" class="mt-1 text-sm text-red-600">
+                                    {{ form.errors.max_quantity }}
+                                </div>
+                            </div>
+
+                            <div>
+                                <v-switch
+                                    :label="__('Charge Monthly?')"
+                                    v-model="form.is_recurring"
+                                />
+                                <div v-if="form.errors.is_recurring" class="mt-1 text-sm text-red-600">
+                                    {{ form.errors.is_recurring }}
                                 </div>
                             </div>
 
