@@ -22,10 +22,10 @@ jobs:
             cd /home/u482721622/domains/portal.cig.chat/public_html/cig-portal
             git checkout .
             git pull
-            php artisan migrate:fresh --force
+            php artisan migrate --force
             php artisan config:clear
             php artisan view:clear
-            php artisan db:seed
+            # php artisan db:seed
             # npm update
             # npm run build
             # composer update
