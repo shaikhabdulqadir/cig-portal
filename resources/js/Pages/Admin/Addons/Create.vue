@@ -30,7 +30,11 @@ const submit = () => {
     <AppLayout :title="isEdit ? 'Edit Addon' : 'Create Addon'">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ isEdit ? `Edit Addon: ${props.addon.name}` : 'Create New Addon' }}
+                {{
+                    isEdit
+                        ? `Edit Addon: ${props.addon.name}`
+                        : "Create New Addon"
+                }}
             </h2>
         </template>
 
@@ -40,7 +44,7 @@ const submit = () => {
                     <div class="p-6">
                         <div class="flex justify-between items-center mb-6">
                             <h1 class="text-2xl font-bold text-gray-900">
-                                {{ isEdit ? 'Edit Addon' : 'Create New Addon' }}
+                                {{ isEdit ? "Edit Addon" : "Create New Addon" }}
                             </h1>
                             <Link
                                 :href="route('admin.addons.index')"
@@ -56,7 +60,10 @@ const submit = () => {
                                     :label="__('Name')"
                                     v-model="form.name"
                                 ></v-text-field>
-                                <div v-if="form.errors.name" class="mt-1 text-sm text-red-600">
+                                <div
+                                    v-if="form.errors.name"
+                                    class="mt-1 text-sm text-red-600"
+                                >
                                     {{ form.errors.name }}
                                 </div>
                             </div>
@@ -66,7 +73,10 @@ const submit = () => {
                                     :label="__('Description')"
                                     v-model="form.description"
                                 ></v-text-field>
-                                <div v-if="form.errors.description" class="mt-1 text-sm text-red-600">
+                                <div
+                                    v-if="form.errors.description"
+                                    class="mt-1 text-sm text-red-600"
+                                >
                                     {{ form.errors.description }}
                                 </div>
                             </div>
@@ -78,7 +88,10 @@ const submit = () => {
                                     step="0.01"
                                     v-model="form.price"
                                 ></v-text-field>
-                                <div v-if="form.errors.price" class="mt-1 text-sm text-red-600">
+                                <div
+                                    v-if="form.errors.price"
+                                    class="mt-1 text-sm text-red-600"
+                                >
                                     {{ form.errors.price }}
                                 </div>
                             </div>
@@ -90,17 +103,24 @@ const submit = () => {
                                     min="1"
                                     v-model="form.max_quantity"
                                 ></v-text-field>
-                                <div v-if="form.errors.max_quantity" class="mt-1 text-sm text-red-600">
+                                <div
+                                    v-if="form.errors.max_quantity"
+                                    class="mt-1 text-sm text-red-600"
+                                >
                                     {{ form.errors.max_quantity }}
                                 </div>
                             </div>
 
                             <div>
-                                <v-switch
+                                <v-checkbox
                                     :label="__('Charge Monthly?')"
                                     v-model="form.is_recurring"
-                                />
-                                <div v-if="form.errors.is_recurring" class="mt-1 text-sm text-red-600">
+                                ></v-checkbox>
+
+                                <div
+                                    v-if="form.errors.is_recurring"
+                                    class="mt-1 text-sm text-red-600"
+                                >
                                     {{ form.errors.is_recurring }}
                                 </div>
                             </div>
@@ -117,7 +137,15 @@ const submit = () => {
                                     :disabled="form.processing"
                                     class="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold py-2 px-4 rounded"
                                 >
-                                    {{ form.processing ? (isEdit ? 'Updating...' : 'Creating...') : (isEdit ? 'Update Addon' : 'Create Addon') }}
+                                    {{
+                                        form.processing
+                                            ? isEdit
+                                                ? "Updating..."
+                                                : "Creating..."
+                                            : isEdit
+                                            ? "Update Addon"
+                                            : "Create Addon"
+                                    }}
                                 </button>
                             </div>
                         </form>
@@ -126,7 +154,4 @@ const submit = () => {
             </div>
         </div>
     </AppLayout>
-    
 </template>
-
-
