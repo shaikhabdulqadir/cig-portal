@@ -11,6 +11,7 @@ const props = defineProps({
 const form = useForm({
     id: props.plan?.id ?? null,
     name: props.plan?.name ?? "",
+    api_name: props.plan?.api_name ?? "",
     price: props.plan?.price ?? "",
     is_active: props.plan?.is_active ?? false,
     features:
@@ -18,6 +19,7 @@ const form = useForm({
             ? props.plan.features.map((f) => ({
                   feature_name: f.feature_name,
                   description: f.description || "",
+                  id: f.id,
               }))
             : [{ feature_name: "", description: "" }],
 });
@@ -84,9 +86,22 @@ const submit = () => {
                             <!-- Price -->
                             <div>
                                 <v-text-field
-                                    :label="__('Price')"
-                                    v-model="form.price"
+                                    :label="__('API Name')"
+                                    v-model="form.api_name"
                                 ></v-text-field>
+                            </div>
+
+                            <!-- Price -->
+                            <div>
+                                <v-text-field
+                                    v-model="form.price"
+                                    :label="__('Price')"
+                                    prefix="₪"
+                                    type="number"
+                                    step="0.01"
+                                    outlined
+                                    dense
+                                />
 
                                 <div
                                     v-if="form.errors.price"
@@ -172,7 +187,9 @@ const submit = () => {
                             </div>
 
                             <!-- Submit Button -->
-                            <div class="flex justify-end space-x-3">
+                            <div
+                                class="flex justify-end space-x-3 rtl:space-x-reverse"
+                            >
                                 <Link
                                     :href="route('admin.plans.index')"
                                     class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
@@ -184,11 +201,20 @@ const submit = () => {
                                     :disabled="form.processing"
                                     class="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold py-2 px-4 rounded"
                                 >
-                                    {{
-                                        form.processing
-                                            ? "Creating..."
-                                            : "Create Plan"
-                                    }}
+                                    <span v-if="form.id">
+                                        {{
+                                            form.processing
+                                                ? "Updating..."
+                                                : "Update Plan"
+                                        }}
+                                    </span>
+                                    <span v-else>
+                                        {{
+                                            form.processing
+                                                ? "Creating..."
+                                                : "Create Plan"
+                                        }}
+                                    </span>
                                 </button>
                             </div>
                         </form>

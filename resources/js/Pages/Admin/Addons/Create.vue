@@ -83,11 +83,14 @@ const submit = () => {
 
                             <div>
                                 <v-text-field
+                                    v-model="form.price"
                                     :label="__('Price')"
+                                    prefix="₪"
                                     type="number"
                                     step="0.01"
-                                    v-model="form.price"
-                                ></v-text-field>
+                                    outlined
+                                    dense
+                                />
                                 <div
                                     v-if="form.errors.price"
                                     class="mt-1 text-sm text-red-600"

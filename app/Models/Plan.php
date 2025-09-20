@@ -11,6 +11,7 @@ class Plan extends Model
 
     protected $fillable = [
         'name',
+        'api_name',
         'price',
         'is_active'
     ];

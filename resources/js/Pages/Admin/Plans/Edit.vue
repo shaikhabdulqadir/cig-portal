@@ -9,6 +9,7 @@ const props = defineProps({
 
 const form = useForm({
     name: props.plan.name,
+    api_name: props.plan.api_name ?? "",
     price: props.plan.price,
     is_active: props.plan.is_active,
     features: props.plan.features.length > 0 
@@ -75,6 +76,23 @@ const submit = () => {
                                 />
                                 <div v-if="form.errors.name" class="mt-1 text-sm text-red-600">
                                     {{ form.errors.name }}
+                                </div>
+                            </div>
+
+                            <!-- Price -->
+                            <div>
+                                <label for="api_name" class="block text-sm font-medium text-gray-700">
+                                    API Name
+                                </label>
+                                <input
+                                    id="api_name"
+                                    v-model="form.api_name"
+                                    type="text"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    :class="{ 'border-red-500': form.errors.api_name }"
+                                />
+                                <div v-if="form.errors.api_name" class="mt-1 text-sm text-red-600">
+                                    {{ form.errors.api_name }}
                                 </div>
                             </div>
 

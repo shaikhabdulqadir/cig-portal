@@ -7,6 +7,7 @@ use App\Models\PlanFeature;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\RedirectResponse;
 
 class PlanController extends Controller
 {
@@ -33,36 +34,45 @@ class PlanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:plans',
+            // 'name' => 'required|string|max:255|unique:plans',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('plans')->ignore($request->id),
+            ],
+            'api_name' => 'nullable|string|max:255|unique:plans',
             'price' => 'required|numeric|min:0',
             'is_active' => 'boolean',
             'features' => 'array',
             'features.*.feature_name' => 'required|string|max:255',
-            'features.*.description' => 'nullable|string'
+            'features.*.description' => 'nullable|string',
+            'features.*.id' => 'nullable'
         ]);
 
         $plan = Plan::updateOrCreate([
             'id' => $request->id
         ], [
             'name' => $validated['name'],
+            'api_name' => $validated['api_name'] ?? null,
             'price' => $validated['price'],
             'is_active' => $validated['is_active'] ?? true,
         ]);
 
         if (isset($validated['features'])) {
+            $plan->features()->delete();
             foreach ($validated['features'] as $feature) {
-                $plan->features()->create([
+                $plan->features()->updateOrCreate(['id' => @$feature['id']],[
                     'feature_name' => $feature['feature_name'],
                     'description' => $feature['description'] ?? null,
                 ]);
             }
         }
 
-        return redirect()->route('admin.plans.index')
-            ->with('success', 'Plan created successfully.');
+        return to_route('admin.plans.index')->with('success', 'Plan created successfully.');
     }
 
     /**
@@ -92,12 +102,13 @@ class PlanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): RedirectResponse
     {
         $plan = Plan::findOrFail($id);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('plans')->ignore($plan->id)],
+            'api_name' => ['nullable', 'string', 'max:255', Rule::unique('plans')->ignore($plan->id)],
             'price' => 'required|numeric|min:0',
             'is_active' => 'boolean',
             'features' => 'array',
@@ -107,6 +118,7 @@ class PlanController extends Controller
 
         $plan->update([
             'name' => $validated['name'],
+            'api_name' => $validated['api_name'] ?? null,
             'price' => $validated['price'],
             'is_active' => $validated['is_active'] ?? true,
         ]);
@@ -123,19 +135,17 @@ class PlanController extends Controller
             }
         }
 
-        return redirect()->route('admin.plans.index')
-            ->with('success', 'Plan updated successfully.');
+        return to_route('admin.plans.index')->with('success', 'Plan updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $plan = Plan::findOrFail($id);
         $plan->delete();
 
-        return redirect()->route('admin.plans.index')
-            ->with('success', 'Plan deleted successfully.');
+        return to_route('admin.plans.index')->with('success', 'Plan deleted successfully.');
     }
 }
