@@ -32,8 +32,10 @@ return [
     ],
 
     'uchat' => [
-        'base_url' => env('UCHAT_BASE_URL', 'https://www.uchat.com.au/api'),
-        'api_key' => env('UCHAT_PARTNER_API_KEY'),
+        // 'base_url' => env('UCHAT_BASE_URL', 'https://www.uchat.com.au/api'),
+        // 'api_key' => env('UCHAT_PARTNER_API_KEY'),
+        'base_url' => env('UCHAT_BASE_URL', 'https://app.cig.chat/api'),
+        'api_key' => env('UCHAT_PARTNER_API_KEY','hVDzTVdYE3k7szpgAaP2KVeIcgmAcleMqTCJL5I5twi6ZNq3t5KKPhKSqOHQ'),
     ],
 
 ];
