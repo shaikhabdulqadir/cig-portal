@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Services\UChatPartnerService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,7 +32,8 @@ class User extends Authenticatable
         'company_name',
         'license',
         'phone',
-        'is_admin'
+        'is_admin',
+        'workspace_id',
     ];
 
     /**
@@ -62,4 +65,34 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function createUChatWorkspace()
+    {
+        $user = $this;
+        $uchatService = new UChatPartnerService();
+        $workspace = $uchatService->createWorkspace([
+            'email' => $user->email,
+            'password' => "secret@321",
+            'name' => $user->name,
+            'email' => $user->email,
+            'team_name' => empty($user->company_name) ? $user->name : $user->company_name,
+            'channel' => "webchat",
+            "auto_verify" => true,
+        ]);
+        
+        if(isset($workspace['success']) && $workspace['success'] == false){
+            $workspace = $uchatService->createWorkspaceForExistingUser([
+                'email' => $user->email,
+                'password' => "secret@321",
+                'name' => $user->name,
+                'email' => $user->email,
+                'team_name' => empty($user->company_name) ? $user->name : $user->company_name,
+                'channel' => "webchat",
+                "auto_verify" => true,
+            ]);
+        }
+
+        $user->workspace_id = $workspace['data']['id'];
+        $user->save();
+    }
 }

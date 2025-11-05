@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Addon;
 use App\Models\Plan;
+use App\Models\User;
 use App\Services\UChatPartnerService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;

@@ -7,7 +7,9 @@ use App\Models\Plan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Services\IcountService;
+use App\Services\UChatPartnerService;
 use Exception;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
@@ -38,7 +40,6 @@ class UserController extends Controller
 
         // Log the user in
         Auth::login($user);
-
         // Return success response
         return redirect()->route('dashboard');
     }
@@ -209,6 +210,12 @@ class UserController extends Controller
         $addonsSum = collect($addons)->sum('price');
         $totalAmount = $plan->price + $addonsSum;
 
+        if($totalAmount == 0){
+            $user = auth()->user();
+            $user->createUChatWorkspace();
+            return redirect()->route('dashboard');
+        }
+        
         return inertia('Payment', [
             'addons' => $addons,
             'plan' => $plan,

@@ -111,7 +111,7 @@ const submit = () => {
                                 </div>
                             </div>
 
-                                <div class="px-4 col-span-2 sm:col-span-1">
+                            <div class="px-4 col-span-2 sm:col-span-1">
                                 <v-text-field
                                     v-model="form.email"
                                     :label="__('Email')"
@@ -119,7 +119,7 @@ const submit = () => {
                                 <InputError :message="form.errors.email" />
                             </div>
 
-                                <div class="px-4 col-span-2 sm:col-span-1">
+                            <div class="px-4 col-span-2 sm:col-span-1">
                                 <v-text-field
                                     v-model="form.password"
                                     :label="__('Password')"
