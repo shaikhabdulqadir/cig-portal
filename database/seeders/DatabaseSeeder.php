@@ -59,8 +59,10 @@ class DatabaseSeeder extends Seeder
         $addons = $uchatService->getAddons();
         foreach($addons['data'] as $addon){
             Addon::firstOrCreate([
+                'api_name' => $addon['id']
+            ],
+            [
                 'name' => $addon['label'],
-                'api_name' => $addon['id'],
                 'price' => $addon['price'],
                 'is_recurring' => $addon['is_yearly'] ? true : false,
             ]);

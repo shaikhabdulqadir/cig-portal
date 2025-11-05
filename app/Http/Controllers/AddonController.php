@@ -14,7 +14,7 @@ class AddonController extends Controller
      */
     public function index()
     {
-        $addons = Addon::query()->latest()->get();
+        $addons = Addon::whereNotNull('api_name')->latest()->get();
 
         return Inertia::render('Admin/Addons/Index', [
             'addons' => $addons,
