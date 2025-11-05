@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'uchat' => [
+        'base_url' => env('UCHAT_BASE_URL', 'https://www.uchat.com.au/api'),
+        'api_key' => env('UCHAT_PARTNER_API_KEY'),
+    ],
+
 ];

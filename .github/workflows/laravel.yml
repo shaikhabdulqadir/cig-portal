@@ -25,7 +25,7 @@ jobs:
             php artisan migrate --force
             php artisan config:clear
             php artisan view:clear
-            # php artisan db:seed
+            php artisan db:seed
             # npm update
             # npm run build
             # composer update

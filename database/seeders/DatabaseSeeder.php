@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Addon;
 use App\Models\Plan;
+use App\Services\UChatPartnerService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -50,6 +52,17 @@ class DatabaseSeeder extends Seeder
             $plan->features()->create([
                 'feature_name' => "Instant Chat",
                 'description' => null,
+            ]);
+        }
+
+        $uchatService = new UChatPartnerService();
+        $addons = $uchatService->getAddons();
+        foreach($addons['data'] as $addon){
+            Addon::firstOrCreate([
+                'name' => $addon['label'],
+                'api_name' => $addon['id'],
+                'price' => $addon['price'],
+                'is_recurring' => $addon['is_yearly'] ? true : false,
             ]);
         }
     }
