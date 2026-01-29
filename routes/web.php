@@ -35,6 +35,10 @@ Route::get('/signup', function () {
     return inertia('Signup');
 });
 
+Route::get('/signup', function () {
+    return inertia('Signup');
+});
+
 Route::post('/signup', [UserController::class,'signup'])->name('signup');
 
 Route::post('/payment/{plan_id}', [UserController::class,'payment'])->name('payment');
@@ -59,7 +63,7 @@ Route::get('/payment', [UserController::class,'payment'])->name('payment');
         $user = auth()->user();
 
         if(!$user->is_admin){
-            return Inertia::render('Dashboard');
+            return redirect()->route('plans');
         }
 
         return Inertia::render('Dashboard');
