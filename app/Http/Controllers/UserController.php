@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -33,6 +34,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'uchat_password' => Crypt::encryptString($validated['password']),
             'company_name' => $validated['company_name'],
             'phone' => $validated['phone'],
             'license' => $validated['license'],
@@ -108,13 +110,14 @@ class UserController extends Controller
                     ];
             }
 
+            $user = auth()->user();
             $data = [
                 "sid" => "string",
                 "cid" => "string",
                 "user" => "string",
                 "pass" => "string",
-                "client_id" => 0,
-                "custom_client_id" => "string",
+                "client_id" => $user->id,
+                "custom_client_id" => $user->id,
                 "vat_id" => 0,
                 "email" => "string",
                 "client_name" => "string",
@@ -212,7 +215,6 @@ class UserController extends Controller
 
         if($totalAmount == 0){
             $user = auth()->user();
-            $user->createUChatWorkspace();
             return redirect()->route('dashboard');
         }
         

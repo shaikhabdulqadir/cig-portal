@@ -8,6 +8,7 @@ use App\Services\UChatPartnerService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -29,6 +30,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'uchat_password',
         'company_name',
         'license',
         'phone',
@@ -43,6 +45,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'uchat_password',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
@@ -72,7 +75,7 @@ class User extends Authenticatable
         $uchatService = new UChatPartnerService();
         $workspace = $uchatService->createWorkspace([
             'email' => $user->email,
-            'password' => "secret@321",
+            'password' => Crypt::decryptString($user->uchat_password),
             'name' => $user->name,
             'email' => $user->email,
             'team_name' => empty($user->company_name) ? $user->name : $user->company_name,
@@ -83,7 +86,7 @@ class User extends Authenticatable
         if(isset($workspace['success']) && $workspace['success'] == false){
             $workspace = $uchatService->createWorkspaceForExistingUser([
                 'email' => $user->email,
-                'password' => "secret@321",
+                'password' => Crypt::decryptString($user->uchat_password),
                 'name' => $user->name,
                 'email' => $user->email,
                 'team_name' => empty($user->company_name) ? $user->name : $user->company_name,
@@ -94,5 +97,12 @@ class User extends Authenticatable
 
         $user->workspace_id = $workspace['data']['id'];
         $user->save();
+    }
+    
+    public static function boot() {
+        parent::boot();
+        self::created(function($user) {
+            $user->createUChatWorkspace();
+        });
     }
 }

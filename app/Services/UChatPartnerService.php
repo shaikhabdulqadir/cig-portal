@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Log;
 
 class UChatPartnerService
 {
@@ -22,13 +23,22 @@ class UChatPartnerService
     protected function request(string $method, string $endpoint, array $data = [])
     {
         try {
+            $url = "{$this->baseUrl}{$endpoint}";
             $response = Http::withToken($this->apiKey)
                 ->acceptJson()
-                ->$method("{$this->baseUrl}{$endpoint}", $data);
+                ->$method($url, $data);
+
+                Log::info($url);
+                Log::info($data);
+                Log::info($method);
+                Log::info($this->apiKey);
+                Log::info($response->json());
 
             if ($response->failed()) {
                 throw new RequestException($response);
             }
+
+            Log::info($response->json());
 
             return $response->json();
         } catch (RequestException $e) {

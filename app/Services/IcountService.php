@@ -20,14 +20,14 @@ class IcountService
         // $this->baseUrl = rtrim(config('services.icount.base_url'), '/');
         $this->baseUrl = "https://api.icount.co.il/api/v3.php";
         $response = $this->login([
-                // "cid"=> "cigdev",
-                // "user"=> "api-user",
-                // "pass"=> "Au2025!!"
+                "cid"=> "cigSandbox",
+                "user"=> "abdul",
+                "pass"=> "d51af8"
 
                 // Production
-                "cid" => "cig",
-                "user" => "eyal",
-                "pass" => "V011r37!!"
+                // "cid" => "cig",
+                // "user" => "eyal",
+                // "pass" => "V011r37!!"
         ]);
 
         $this->sid = $response['sid'];
@@ -67,15 +67,15 @@ class IcountService
     public function createRecurringProfile(array $payload): ?array
     {
         // $payload['sid'] = $this->sid;
-        $payload['cid'] = "cigdev";
-        $payload['user'] = "api-user";
-        $payload['pass'] = "Au2025!!";
+        $payload['cid'] = "cigSandbox";
+        $payload['user'] = "abdul";
+        $payload['pass'] = "d51af8";
 
 
         // Production
-        $payload['cid'] = "cig";
-        $payload['user'] = "eyal";
-        $payload['pass'] = "V011r37!!";
+        // $payload['cid'] = "cig";
+        // $payload['user'] = "eyal";
+        // $payload['pass'] = "V011r37!!";
 
         return $this->post('/hk/create', $payload);
     }
@@ -84,7 +84,7 @@ class IcountService
     /**
      * Generic POST wrapper
      */
-    protected function post(string $endpoint, array $data): ?array
+    protected function post(string $endpoint, array $data = []): ?array
     {
         $response = Http::acceptJson()
             ->post($this->baseUrl . $endpoint, $data);
@@ -96,5 +96,21 @@ class IcountService
         }
 
         return $json;
+    }
+
+    public function getInvoices()
+    {
+         // $payload['sid'] = $this->sid;
+         $payload['cid'] = "cigdev";
+         $payload['user'] = "api-user";
+         $payload['pass'] = "Au2025!!";
+ 
+ 
+         // Production
+         $payload['cid'] = "cig";
+         $payload['user'] = "eyal";
+         $payload['pass'] = "V011r37!!";
+ 
+         return $this->post('/doc/search', $payload);
     }
 }

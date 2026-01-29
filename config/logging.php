@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default' => 'db',
 
     /*
     |--------------------------------------------------------------------------
@@ -125,6 +125,13 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        'db' => [
+            'driver' => 'custom',
+            'handler' => App\Logging\MySQLLoggingHandler::class,
+            'via' => App\Logging\MySQLCustomLogger::class,
+            'ignore_exceptions' => false,
         ],
     ],
 

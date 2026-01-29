@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\AddonController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\IsAdmin;
 use Laravel\Jetstream\Http\Controllers\Inertia\UserProfileController;
 
 /*
@@ -54,15 +55,18 @@ Route::get('/payment', [UserController::class,'payment'])->name('payment');
 
     Route::get('/dashboard', function () {
 
+        $icountService = new \App\Services\IcountService();
         $user = auth()->user();
+
         if(!$user->is_admin){
-            return redirect()->route('plans');
+            return Inertia::render('Dashboard');
         }
-    return Inertia::render('Dashboard');
+
+        return Inertia::render('Dashboard');
     })->name('dashboard');
 
     // Admin routes for plan management
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(IsAdmin::class)->prefix('admin')->name('admin.')->group(function () {
         Route::resource('plans', PlanController::class);
         Route::resource('addons', AddonController::class);
     });
